@@ -1,0 +1,23 @@
+[OSEv3:children]
+masters
+nodes
+[OSEv3:vars]
+ansible_ssh_user=user_name
+ansible_become=yes
+deployment_type=origin
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+containerized=true
+openshift_release=v1.5.0
+openshift_image_tag=v1.5.0
+openshift_public_hostname=console.exmaple.com
+openshift_master_default_subdomain=apps.exmaple.com
+openshift_hosted_metrics_deploy=false
+openshift_master_overwrite_named_certificates=true
+openshift_disable_check=disk_availability
+openshift_disable_check=docker_storage
+
+[masters]
+console.exmaple.com openshift_schedulable=true
+
+[nodes]
+console.exmaple.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true                                                                                                             

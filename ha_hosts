@@ -1,0 +1,37 @@
+[OSEv3:children]
+nodes
+masters
+nfs
+etcd
+[OSEv3:vars]
+openshift_master_default_subdomain=apps.exmple.com
+### set root user name and set ansible_become= yes or set root as the username
+ansible_ssh_user=username
+ansible_become=yes
+containerized=true
+openshift_release=v1.5.1
+openshift_image_tag=v1.5.1
+openshift_master_cluster_method=native
+### this is the ip/hosname of you LB
+openshift_master_cluster_hostname=exmaple.com
+#### this is the host name of the LB 
+openshift_master_cluster_public_hostname=exmaple.com
+deployment_type=origin
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true','kind':'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/htpasswd'}]
+openshift_docker_options='--selinux-enabled --insecure-registry 172.30.0.0/16'
+openshift_router_selector='region=infra'
+openshift_registry_selector='region=infra'
+openshift_disable_check=docker_storage,disk_availability,memory_availability,package_availability,package_version
+openshift_hosted_metrics_deploy=true
+openshift_hosted_metrics_public_url=https://hawkular-metrics.apps.example/hawkular/metrics
+openshift_hosted_logging_deploy=true
+[nodes]
+master[1:3].exmaple.com openshift_node_labels="{'region': 'infra','zone': 'default'}" openshift_schedulable=True
+node1..exmaple.com  openshift_node_labels="{'region': 'primary','zone': 'default'}" openshift_schedulable=True
+[masters]
+master[1:3].exmaple.com
+[nfs]
+node1.exmaple.com
+[etcd]
+master[1:3].exmaple.com
